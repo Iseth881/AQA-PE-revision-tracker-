@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+.countdown {
+  background: #fff3cd;
+  padding: 15px;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.topic {
+  margin: 20px;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+}
+
+.subtopic {
+  margin: 5px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.completed {
+  text-decoration: line-through;
+  background: #c8f7c5;
+}
