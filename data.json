@@ -1,0 +1,58 @@
+{
+  "topics": [
+    {
+      "name": "Anatomy and Physiology",
+      "subtopics": [
+        "Skeletal system (functions, types of bones)",
+        "Muscular system (major muscles, antagonistic pairs)",
+        "Cardiovascular system (heart structure, blood vessels)",
+        "Respiratory system (pathway of air, gas exchange)",
+        "Aerobic and anaerobic exercise"
+      ]
+    },
+    {
+      "name": "Movement Analysis",
+      "subtopics": [
+        "Lever systems (1st, 2nd, 3rd class)",
+        "Planes and axes of movement",
+        "Types of movement (flexion, extension, etc.)"
+      ]
+    },
+    {
+      "name": "Physical Training",
+      "subtopics": [
+        "Components of fitness",
+        "Principles of training (SPORT, FITT)",
+        "Training methods (interval, continuous, HIIT, etc.)",
+        "Injury prevention and recovery"
+      ]
+    },
+    {
+      "name": "Sports Psychology",
+      "subtopics": [
+        "Types of guidance",
+        "Goal setting",
+        "Mental preparation",
+        "Feedback (intrinsic/extrinsic)"
+      ]
+    },
+    {
+      "name": "Socio-cultural Influences",
+      "subtopics": [
+        "Engagement patterns in sport",
+        "Commercialisation",
+        "Ethical issues (doping, cheating)",
+        "Media influence"
+      ]
+    },
+    {
+      "name": "Health, Fitness and Well-being",
+      "subtopics": [
+        "Physical, emotional, social health",
+        "Diet and nutrition",
+        "Lifestyle choices",
+        "Consequences of inactivity"
+      ]
+    }
+  ]
+}
