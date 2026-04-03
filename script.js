@@ -1,28 +1,38 @@
 let allSubtopics = [];
 
 async function loadTopics() {
-  const response = await fetch('data.json');
-  const data = await response.json();
-  const container = document.getElementById('topics');
+  try {
+    const response = await fetch('./data.json');
+    const data = await response.json();
 
-  data.topics.forEach(topic => {
-    const topicDiv = document.createElement('div');
-    topicDiv.className = 'topic';
+    console.log("DATA LOADED:", data); // 👈 debug
 
-    const title = document.createElement('h3');
-    title.textContent = topic.name;
-    topicDiv.appendChild(title);
+    const container = document.getElementById('topics');
 
-    topic.subtopics.forEach(sub => {
-      allSubtopics.push(sub);
+    data.topics.forEach(topic => {
+      const topicDiv = document.createElement('div');
+      topicDiv.className = 'topic';
 
-      const div = document.createElement('div');
-      div.className = 'subtopic';
-      div.textContent = sub;
+      const title = document.createElement('h3');
+      title.textContent = topic.name;
+      topicDiv.appendChild(title);
 
-      if (localStorage.getItem(sub) === 'done') {
-        div.classList.add('completed');
-      }
+      topic.subtopics.forEach(sub => {
+        const div = document.createElement('div');
+        div.className = 'subtopic';
+        div.textContent = sub;
+
+        topicDiv.appendChild(div);
+      });
+
+      container.appendChild(topicDiv);
+    });
+
+  } catch (error) {
+    console.error("ERROR LOADING DATA:", error);
+    document.body.innerHTML += "<p style='color:red'>Error loading topics</p>";
+  }
+}
 
       div.addEventListener('click', () => {
         div.classList.toggle('completed');
