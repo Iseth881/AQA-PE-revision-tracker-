@@ -1,12 +1,10 @@
 let allSubtopics = [];
 
+// Load topics from data.json
 async function loadTopics() {
   try {
     const response = await fetch('./data.json');
     const data = await response.json();
-
-    console.log("DATA LOADED:", data); // 👈 debug
-
     const container = document.getElementById('topics');
 
     data.topics.forEach(topic => {
@@ -18,9 +16,28 @@ async function loadTopics() {
       topicDiv.appendChild(title);
 
       topic.subtopics.forEach(sub => {
+        allSubtopics.push(sub);
+
         const div = document.createElement('div');
         div.className = 'subtopic';
         div.textContent = sub;
+
+        // Restore saved progress
+        if (localStorage.getItem(sub) === 'done') {
+          div.classList.add('completed');
+        }
+
+        div.addEventListener('click', () => {
+          div.classList.toggle('completed');
+          if (div.classList.contains('completed')) {
+            localStorage.setItem(sub, 'done');
+          } else {
+            localStorage.removeItem(sub);
+          }
+
+          updateProgress();
+          updateFocus();
+        });
 
         topicDiv.appendChild(div);
       });
@@ -28,117 +45,33 @@ async function loadTopics() {
       container.appendChild(topicDiv);
     });
 
+    updateProgress();
+    updateFocus();
   } catch (error) {
-    console.error("ERROR LOADING DATA:", error);
+    console.error("Error loading topics:", error);
     document.body.innerHTML += "<p style='color:red'>Error loading topics</p>";
   }
 }
 
-      div.addEventListener('click', () => {
-        div.classList.toggle('completed');
-
-        if (div.classList.contains('completed')) {
-          localStorage.setItem(sub, 'done');
-          updateStreak();
-        } else {
-          localStorage.removeItem(sub);
-        }
-
-        updateProgress();
-        updateFocus();
-      });
-
-      topicDiv.appendChild(div);
-    });
-
-    container.appendChild(topicDiv);
-  });
-
-  updateProgress();
-  updateFocus();
-  updateStreak();
-}
-
-// 📊 Progress tracker
+// Update progress %
 function updateProgress() {
-  const completed = allSubtopics.filter(
-    t => localStorage.getItem(t) === 'done'
-  ).length;
-
+  const completed = allSubtopics.filter(t => localStorage.getItem(t) === 'done').length;
   const percent = Math.round((completed / allSubtopics.length) * 100);
-
-  document.getElementById("progress").textContent =
-    `${percent}% complete (${completed}/${allSubtopics.length})`;
+  document.getElementById('progress').textContent = `${percent}% complete (${completed}/${allSubtopics.length})`;
 }
 
-// 🎯 Weak topic detection
+// Suggest focus area (one incomplete subtopic)
 function updateFocus() {
-  const incomplete = allSubtopics.filter(
-    t => !localStorage.getItem(t)
-  );
-
-  const random = incomplete[Math.floor(Math.random() * incomplete.length)];
-
-  document.getElementById("focus").textContent =
-    incomplete.length > 0
-      ? `Focus on: ${random}`
-      : "All topics completed 🎉";
-}
-
-// 🔥 Streak tracker
-function updateStreak() {
-  const today = new Date().toDateString();
-  const last = localStorage.getItem("lastStudy");
-
-  let streak = parseInt(localStorage.getItem("streak")) || 0;
-
-  if (last !== today) {
-    streak += 1;
-    localStorage.setItem("streak", streak);
-    localStorage.setItem("lastStudy", today);
+  const incomplete = allSubtopics.filter(t => !localStorage.getItem(t));
+  if (incomplete.length === 0) {
+    document.getElementById('focus').textContent = "All topics completed 🎉";
+  } else {
+    const random = incomplete[Math.floor(Math.random() * incomplete.length)];
+    document.getElementById('focus').textContent = `Focus on: ${random}`;
   }
-
-  document.getElementById("streak").textContent =
-    `${streak} day streak`;
 }
 
-// 🧠 Quiz generator
-const questions = [
-  {
-    q: "Name the type of joint at the knee.",
-    a: "Hinge joint"
-  },
-  {
-    q: "What is the role of the alveoli?",
-    a: "Gas exchange"
-  },
-  {
-    q: "Define aerobic exercise.",
-    a: "Exercise with oxygen over long duration"
-  },
-  {
-    q: "What does FITT stand for?",
-    a: "Frequency, Intensity, Time, Type"
-  },
-  {
-    q: "Name one intrinsic feedback example.",
-    a: "Feeling movement internally"
-  }
-];
-
-function generateQuiz() {
-  const q = questions[Math.floor(Math.random() * questions.length)];
-
-  document.getElementById("quiz").innerHTML = `
-    <p><strong>${q.q}</strong></p>
-    <button onclick="this.nextElementSibling.style.display='block'">
-      Show Answer
-    </button>
-    <p style="display:none">${q.a}</p>
-  `;
-}
-
-// 📅 Countdown (same as before)
+// Countdown for Paper 1 & Paper 2
 function updateCountdown() {
   const paper1Date = new Date("2026-05-15T09:00:00");
   const paper2Date = new Date("2026-05-22T09:00:00");
@@ -150,13 +83,11 @@ function updateCountdown() {
     return `${days} days`;
   }
 
-  document.getElementById("paper1").textContent =
-    "Paper 1: " + getTimeRemaining(paper1Date);
-
-  document.getElementById("paper2").textContent =
-    "Paper 2: " + getTimeRemaining(paper2Date);
+  document.getElementById("paper1").textContent = "Paper 1: " + getTimeRemaining(paper1Date);
+  document.getElementById("paper2").textContent = "Paper 2: " + getTimeRemaining(paper2Date);
 }
 
+// Initialize
 loadTopics();
 updateCountdown();
 setInterval(updateCountdown, 60000);
