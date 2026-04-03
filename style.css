@@ -2,34 +2,45 @@ body {
   font-family: Arial, sans-serif;
   background: #f4f7fb;
   text-align: center;
+  margin: 0;
+  padding: 0 10px;
 }
 
 h1 {
   color: #333;
+  margin-top: 20px;
 }
 
-.countdown {
+.countdown, #progress, #focus {
   background: #fff3cd;
   padding: 15px;
-  margin: 20px;
+  margin: 15px auto;
   border-radius: 10px;
+  width: 90%;
 }
 
 .topic {
-  margin: 20px;
+  margin: 20px auto;
   padding: 10px;
   background: white;
   border-radius: 10px;
+  width: 90%;
+  text-align: left;
+}
+
+.topic h3 {
+  margin: 0 0 10px 0;
 }
 
 .subtopic {
-  margin: 5px;
+  margin: 5px 0;
   padding: 8px;
   cursor: pointer;
   border-radius: 6px;
+  background: #f0f0f0;
 }
 
-.completed {
+.subtopic.completed {
   text-decoration: line-through;
   background: #c8f7c5;
 }
